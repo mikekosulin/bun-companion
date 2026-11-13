@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "[json]": { "editor.defaultFormatter": "biomejs.biome" },
+  "files.exclude": { "coverage": true, "out": true },
+  "search.exclude": { "dist": true, "out": true, "coverage": true, ".vscode-test": true }
+}

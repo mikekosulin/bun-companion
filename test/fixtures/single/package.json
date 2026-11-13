@@ -1,0 +1,8 @@
+{
+  "name": "fixture-single",
+  "private": true,
+  "scripts": {
+    "hello": "echo hello from single",
+    "start": "bun src/index.ts"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@playground/ui",
+  "version": "0.3.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target bun --external react",
+    "storybook": "bun run ../../scripts/long-running.ts storybook 6006",
+    "lint": "echo 'ui: no lint errors'"
+  },
+  "dependencies": {
+    "@playground/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "catalog:"
+  }
+}

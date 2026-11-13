@@ -1,0 +1,10 @@
+**
+!dist/extension.js
+!package.json
+!package.nls.json
+!package.nls.*.json
+!resources/icon.png
+!resources/activitybar.svg
+!README.md
+!CHANGELOG.md
+!LICENSE

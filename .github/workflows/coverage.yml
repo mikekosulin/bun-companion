@@ -1,0 +1,43 @@
+# Coverage of main as a shields.io endpoint JSON in the badges branch. A separate workflow because it needs
+# contents: write, which CI does not get.
+name: Coverage
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: coverage
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - run: bun install --frozen-lockfile
+      - name: coverage
+        run: |
+          bun test --coverage --coverage-reporter=lcov > /dev/null
+          pct="$(awk -F: '/^LF:/ {found += $2} /^LH:/ {hit += $2} END {print int(hit * 100 / found + 0.5)}' coverage/lcov.info)"
+          color=red; [ "$pct" -ge 70 ] && color=yellow; [ "$pct" -ge 90 ] && color=brightgreen
+          printf '{"schemaVersion":1,"label":"coverage","message":"%s%%","color":"%s"}\n' "$pct" "$color" > "$RUNNER_TEMP/coverage.json"
+          echo "coverage: $pct%"
+      - name: publish the badge
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin badges || true
+          git switch badges 2>/dev/null || git switch --orphan badges
+          git rm -rq --ignore-unmatch .
+          cp "$RUNNER_TEMP/coverage.json" coverage.json
+          git add coverage.json
+          git diff --cached --quiet || { git commit -qm "coverage badge"; git push origin badges; }

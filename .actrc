@@ -1,0 +1,4 @@
+-P ubuntu-latest=bun-companion-act:latest
+-P ubuntu-24.04=bun-companion-act:latest
+--pull=false
+--artifact-server-path=/tmp/act-artifacts

@@ -1,0 +1,11 @@
+{
+  "name": "@fx/core",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo core-build",
+    "prehello": "echo pre",
+    "hello": "echo hello",
+    "fail": "exit 3",
+    "wait": "bun -e \"setTimeout(() => {}, 60000)\""
+  }
+}

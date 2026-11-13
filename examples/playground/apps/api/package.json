@@ -1,0 +1,14 @@
+{
+  "name": "@playground/api",
+  "private": true,
+  "scripts": {
+    "dev": "bun run ../../scripts/long-running.ts api 3401",
+    "build": "bun build src/server.ts --outdir dist --target bun",
+    "migrate": "bun run ../../scripts/prompt.ts",
+    "fail": "echo 'about to fail\u2026' && exit 3"
+  },
+  "dependencies": {
+    "@playground/core": "workspace:~",
+    "zod": "catalog:"
+  }
+}

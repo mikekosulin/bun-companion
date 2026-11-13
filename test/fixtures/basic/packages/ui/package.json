@@ -1,0 +1,13 @@
+{
+  "name": "@fx/ui",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "echo ui-build"
+  },
+  "dependencies": {
+    "@fx/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "catalog:"
+  }
+}

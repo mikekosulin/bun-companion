@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "watch",
+      "type": "shell",
+      "command": "bun run watch",
+      "isBackground": true,
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "never" },
+      "problemMatcher": {
+        "owner": "bun-build",
+        "pattern": { "regexp": "^error: (.*)$", "message": 1 },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "^build: start",
+          "endsPattern": "^(dist/extension\\.js|error)"
+        }
+      }
+    }
+  ]
+}

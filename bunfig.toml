@@ -1,0 +1,12 @@
+[test]
+root = "test/unit"
+coverageSkipTestFiles = true
+coveragePathIgnorePatterns = ["test/**", "node_modules/**"]
+# Bun reports line and function coverage (no branch coverage); both are gated.
+coverageThreshold = { lines = 0.95, functions = 0.95 }
+coverageReporter = ["text", "lcov"]
+coverageDir = "coverage"
+
+[install]
+# Refuse package versions published less than 3 days ago: most malicious releases are pulled within hours.
+minimumReleaseAge = 259200

@@ -1,0 +1,26 @@
+{
+  "name": "playground",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*",
+      "tooling/*"
+    ],
+    "catalog": {
+      "react": "^19.2.0",
+      "react-dom": "^19.2.0",
+      "zod": "^4.1.12"
+    },
+    "catalogs": {
+      "testing": {
+        "happy-dom": "^20.0.0"
+      }
+    }
+  },
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "test": "bun test",
+    "clean": "rm -rf apps/*/dist packages/*/dist"
+  }
+}

@@ -1,0 +1,512 @@
+{
+  "name": "bun-companion",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "0.1.0",
+  "publisher": "mikekosulin",
+  "author": {
+    "name": "Mike Kosulin"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikekosulin/bun-companion.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mikekosulin/bun-companion/issues"
+  },
+  "homepage": "https://github.com/mikekosulin/bun-companion#readme",
+  "private": true,
+  "packageManager": "bun@1.4.4",
+  "icon": "resources/icon.png",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "bun",
+    "bunjs",
+    "bun.sh",
+    "scripts",
+    "tasks",
+    "package.json",
+    "workspaces",
+    "monorepo",
+    "catalog"
+  ],
+  "galleryBanner": {
+    "color": "#14151a",
+    "theme": "dark"
+  },
+  "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "%capabilities.untrustedWorkspaces%",
+      "restrictedConfigurations": [
+        "bunCompanion.bunPath"
+      ]
+    },
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "%capabilities.virtualWorkspaces%"
+    }
+  },
+  "activationEvents": [
+    "workspaceContains:package.json",
+    "workspaceContains:bun.lock",
+    "workspaceContains:bun.lockb",
+    "workspaceContains:bunfig.toml",
+    "workspaceContains:*/bun.lock",
+    "workspaceContains:*/*/bun.lock"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "bunCompanion.runScript",
+        "title": "%command.runScript%",
+        "category": "Bun Companion",
+        "icon": "$(play)",
+        "enablement": "isWorkspaceTrusted"
+      },
+      {
+        "command": "bunCompanion.runScriptWithDependencies",
+        "title": "%command.runScriptWithDependencies%",
+        "category": "Bun Companion",
+        "enablement": "isWorkspaceTrusted"
+      },
+      {
+        "command": "bunCompanion.runScriptInDependents",
+        "title": "%command.runScriptInDependents%",
+        "category": "Bun Companion",
+        "enablement": "isWorkspaceTrusted"
+      },
+      {
+        "command": "bunCompanion.runScriptInAllPackages",
+        "title": "%command.runScriptInAllPackages%",
+        "category": "Bun Companion",
+        "icon": "$(run-all)",
+        "enablement": "isWorkspaceTrusted"
+      },
+      {
+        "command": "bunCompanion.stopScript",
+        "title": "%command.stopScript%",
+        "category": "Bun Companion",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "bunCompanion.copyCommand",
+        "title": "%command.copyCommand%",
+        "category": "Bun Companion"
+      },
+      {
+        "command": "bunCompanion.goToPackage",
+        "title": "%command.goToPackage%",
+        "category": "Bun Companion",
+        "icon": "$(search)"
+      },
+      {
+        "command": "bunCompanion.revealActivePackage",
+        "title": "%command.revealActivePackage%",
+        "category": "Bun Companion"
+      },
+      {
+        "command": "bunCompanion.openTerminal",
+        "title": "%command.openTerminal%",
+        "category": "Bun Companion",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "bunCompanion.openPackageJson",
+        "title": "%command.openPackageJson%",
+        "category": "Bun Companion",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "bunCompanion.revealInExplorer",
+        "title": "%command.revealInExplorer%",
+        "category": "Bun Companion",
+        "icon": "$(folder-opened)"
+      },
+      {
+        "command": "bunCompanion.openScript",
+        "title": "%command.openScript%",
+        "category": "Bun Companion"
+      },
+      {
+        "command": "bunCompanion.refresh",
+        "title": "%command.refresh%",
+        "category": "Bun Companion",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "bunCompanion.viewAsTree",
+        "title": "%command.viewAsTree%",
+        "category": "Bun Companion",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "bunCompanion.viewAsList",
+        "title": "%command.viewAsList%",
+        "category": "Bun Companion",
+        "icon": "$(list-flat)"
+      },
+      {
+        "command": "bunCompanion.selectBunPath",
+        "title": "%command.selectBunPath%",
+        "category": "Bun Companion"
+      },
+      {
+        "command": "bunCompanion.showLog",
+        "title": "%command.showLog%",
+        "category": "Bun Companion"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "bunCompanion",
+          "title": "%viewContainer.title%",
+          "icon": "resources/activitybar.svg"
+        }
+      ]
+    },
+    "views": {
+      "bunCompanion": [
+        {
+          "id": "bunCompanion.packages",
+          "name": "%view.packages%",
+          "icon": "resources/activitybar.svg",
+          "contextualTitle": "%viewContainer.title%",
+          "when": "bunCompanion.hasWorkspace"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "bunCompanion.packages",
+        "contents": "%viewsWelcome.loading%",
+        "when": "bunCompanion.state == loading"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "bunCompanion.stopScript",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.runScriptWithDependencies",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.runScriptInDependents",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.copyCommand",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.openPackageJson",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.revealInExplorer",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.openScript",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.viewAsTree",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.viewAsList",
+          "when": "false"
+        },
+        {
+          "command": "bunCompanion.runScript",
+          "when": "bunCompanion.hasWorkspace && !bunCompanion.hide.runScript"
+        },
+        {
+          "command": "bunCompanion.runScriptInAllPackages",
+          "when": "bunCompanion.hasWorkspace && !bunCompanion.hide.runScriptInAllPackages"
+        },
+        {
+          "command": "bunCompanion.goToPackage",
+          "when": "bunCompanion.hasWorkspace && !bunCompanion.hide.goToPackage"
+        },
+        {
+          "command": "bunCompanion.revealActivePackage",
+          "when": "bunCompanion.hasWorkspace && !bunCompanion.hide.revealActivePackage"
+        },
+        {
+          "command": "bunCompanion.openTerminal",
+          "when": "bunCompanion.hasWorkspace && !bunCompanion.hide.openTerminal"
+        },
+        {
+          "command": "bunCompanion.refresh",
+          "when": "bunCompanion.hasWorkspace"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "bunCompanion.runScript",
+          "when": "view == bunCompanion.packages && !bunCompanion.hide.runScript",
+          "group": "navigation@1"
+        },
+        {
+          "command": "bunCompanion.goToPackage",
+          "when": "view == bunCompanion.packages && !bunCompanion.hide.goToPackage",
+          "group": "navigation@2"
+        },
+        {
+          "command": "bunCompanion.runScriptInAllPackages",
+          "when": "view == bunCompanion.packages && !bunCompanion.hide.runScriptInAllPackages",
+          "group": "1_run@1"
+        },
+        {
+          "command": "bunCompanion.viewAsTree",
+          "when": "view == bunCompanion.packages && bunCompanion.viewStyle == list",
+          "group": "2_view@1"
+        },
+        {
+          "command": "bunCompanion.viewAsList",
+          "when": "view == bunCompanion.packages && bunCompanion.viewStyle == tree",
+          "group": "2_view@1"
+        },
+        {
+          "command": "bunCompanion.refresh",
+          "when": "view == bunCompanion.packages",
+          "group": "2_view@2"
+        },
+        {
+          "command": "bunCompanion.selectBunPath",
+          "when": "view == bunCompanion.packages",
+          "group": "3_settings@1"
+        },
+        {
+          "command": "bunCompanion.showLog",
+          "when": "view == bunCompanion.packages",
+          "group": "3_settings@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "bunCompanion.runScript",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script(:root)?$/ && !bunCompanion.hide.runScript",
+          "group": "inline@1"
+        },
+        {
+          "command": "bunCompanion.stopScript",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script.*:running$/",
+          "group": "inline@1"
+        },
+        {
+          "command": "bunCompanion.runScript",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script/ && !bunCompanion.hide.runScript",
+          "group": "1_run@1"
+        },
+        {
+          "command": "bunCompanion.runScriptWithDependencies",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script(:running)?$/ && !bunCompanion.hide.runScriptWithDependencies",
+          "group": "1_run@2"
+        },
+        {
+          "command": "bunCompanion.runScriptInDependents",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script(:running)?$/ && !bunCompanion.hide.runScriptInDependents",
+          "group": "1_run@3"
+        },
+        {
+          "command": "bunCompanion.stopScript",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script.*:running$/",
+          "group": "1_run@4"
+        },
+        {
+          "command": "bunCompanion.openScript",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script/ && !bunCompanion.hide.openScript",
+          "group": "2_open@1"
+        },
+        {
+          "command": "bunCompanion.copyCommand",
+          "when": "view == bunCompanion.packages && viewItem =~ /^script/ && !bunCompanion.hide.copyCommand",
+          "group": "3_copy@1"
+        },
+        {
+          "command": "bunCompanion.openPackageJson",
+          "when": "view == bunCompanion.packages && viewItem =~ /^package/ && !bunCompanion.hide.openPackageJson",
+          "group": "inline@1"
+        },
+        {
+          "command": "bunCompanion.openTerminal",
+          "when": "view == bunCompanion.packages && viewItem =~ /^package/ && !bunCompanion.hide.openTerminal",
+          "group": "inline@2"
+        },
+        {
+          "command": "bunCompanion.runScript",
+          "when": "view == bunCompanion.packages && viewItem =~ /^package/ && !bunCompanion.hide.runScript",
+          "group": "1_run@1"
+        },
+        {
+          "command": "bunCompanion.openPackageJson",
+          "when": "view == bunCompanion.packages && viewItem =~ /^package/ && !bunCompanion.hide.openPackageJson",
+          "group": "2_open@1"
+        },
+        {
+          "command": "bunCompanion.revealInExplorer",
+          "when": "view == bunCompanion.packages && viewItem =~ /^package/ && !bunCompanion.hide.revealInExplorer",
+          "group": "2_open@2"
+        },
+        {
+          "command": "bunCompanion.openTerminal",
+          "when": "view == bunCompanion.packages && viewItem =~ /^package/ && !bunCompanion.hide.openTerminal",
+          "group": "2_open@3"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "bunCompanion.runScript",
+          "when": "bunCompanion.hasWorkspace && resourceFilename == package.json && !bunCompanion.hide.runScript",
+          "group": "bunCompanion@1"
+        }
+      ]
+    },
+    "taskDefinitions": [
+      {
+        "type": "bunCompanion",
+        "required": [
+          "script"
+        ],
+        "properties": {
+          "script": {
+            "type": "string",
+            "description": "%taskDefinition.script%"
+          },
+          "package": {
+            "type": "string",
+            "description": "%taskDefinition.package%"
+          },
+          "filter": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "%taskDefinition.filter%"
+          }
+        }
+      }
+    ],
+    "configuration": {
+      "title": "%displayName%",
+      "properties": {
+        "bunCompanion.bunPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.bunPath%"
+        },
+        "bunCompanion.packagesView.style": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "list",
+            "tree"
+          ],
+          "enumDescriptions": [
+            "%config.style.auto%",
+            "%config.style.list%",
+            "%config.style.tree%"
+          ],
+          "default": "auto",
+          "description": "%config.style%"
+        },
+        "bunCompanion.packagesView.followActiveEditor": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.followActiveEditor%"
+        },
+        "bunCompanion.packagesView.scriptClickAction": {
+          "type": "string",
+          "enum": [
+            "open",
+            "run"
+          ],
+          "enumDescriptions": [
+            "%config.scriptClickAction.open%",
+            "%config.scriptClickAction.run%"
+          ],
+          "default": "open",
+          "description": "%config.scriptClickAction%"
+        },
+        "bunCompanion.statusBar.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.statusBar%"
+        },
+        "bunCompanion.diagnostics.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.diagnostics%"
+        },
+        "bunCompanion.commands.hidden": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "bunCompanion.runScript",
+              "bunCompanion.runScriptWithDependencies",
+              "bunCompanion.runScriptInDependents",
+              "bunCompanion.runScriptInAllPackages",
+              "bunCompanion.copyCommand",
+              "bunCompanion.goToPackage",
+              "bunCompanion.revealActivePackage",
+              "bunCompanion.openTerminal",
+              "bunCompanion.openPackageJson",
+              "bunCompanion.revealInExplorer",
+              "bunCompanion.openScript"
+            ]
+          },
+          "uniqueItems": true,
+          "default": [],
+          "markdownDescription": "%config.commandsHidden%"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "bun run scripts/build.ts",
+    "watch": "bun run scripts/build.ts --watch",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p test/integration/tsconfig.json",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "test:node": "bun run scripts/build-unit-for-node.ts && node scripts/run-node-tests.mjs",
+    "test:bundle": "bun run build && node scripts/check-bundle.cjs",
+    "test:integration": "bun run build && bun run scripts/build-tests.ts && node scripts/run-integration.mjs",
+    "package": "bun run build && vsce package --no-dependencies --out dist/bun-companion.vsix",
+    "check": "bun run typecheck && bun run lint && bun run test:coverage && bun run test:node && bun run test:bundle",
+    "ci:local": "sh scripts/ci-local.sh"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.7",
+    "@types/bun": "1.4.4",
+    "@types/node": "20.19.43",
+    "@types/vscode": "1.96.0",
+    "@vscode/test-electron": "3.1.0",
+    "@vscode/vsce": "4.1.1",
+    "typescript": "7.0.2"
+  },
+  "dependencies": {
+    "jsonc-parser": "3.3.1"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "fixture-second",
+  "private": true,
+  "workspaces": [
+    "libs/*"
+  ],
+  "packageManager": "bun@1.4.4"
+}

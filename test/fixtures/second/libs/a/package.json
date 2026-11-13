@@ -1,0 +1,6 @@
+{
+  "name": "second-a",
+  "scripts": {
+    "test": "echo a"
+  }
+}

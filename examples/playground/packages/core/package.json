@@ -1,0 +1,13 @@
+{
+  "name": "@playground/core",
+  "version": "1.2.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "test": "bun test",
+    "lint": "echo 'core: no lint errors'"
+  },
+  "devDependencies": {
+    "@playground/tsconfig": "workspace:*"
+  }
+}

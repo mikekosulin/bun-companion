@@ -1,0 +1,24 @@
+{
+  "name": "fixture-basic",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "apps/*"
+    ],
+    "catalog": {
+      "react": "^19.2.0"
+    },
+    "catalogs": {
+      "testing": {
+        "vitest": "^3.2.0"
+      }
+    }
+  },
+  "scripts": {
+    "root-script": "echo root"
+  },
+  "overrides": {
+    "react": "catalog:"
+  }
+}

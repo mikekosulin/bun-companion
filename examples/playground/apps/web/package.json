@@ -1,0 +1,19 @@
+{
+  "name": "@playground/web",
+  "private": true,
+  "scripts": {
+    "dev": "bun run ../../scripts/long-running.ts web 3400",
+    "prebuild": "echo 'web: generating routes\u2026'",
+    "build": "bun build src/main.ts --outdir dist --target bun",
+    "postbuild": "echo 'web: build finished'",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@playground/ui": "workspace:^",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "happy-dom": "catalog:testing"
+  }
+}

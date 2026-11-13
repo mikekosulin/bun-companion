@@ -1,0 +1,15 @@
+{
+  "name": "web",
+  "private": true,
+  "scripts": {
+    "build": "echo web-build",
+    "dev": "echo dev"
+  },
+  "dependencies": {
+    "@fx/ui": "workspace:^",
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "vitest": "catalog:testing"
+  }
+}

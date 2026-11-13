@@ -1,0 +1,9 @@
+node_modules/
+dist/
+out/
+coverage/
+.vscode-test/
+*.vsix
+.DS_Store
+test/fixtures/**/node_modules/
+examples/**/node_modules/
