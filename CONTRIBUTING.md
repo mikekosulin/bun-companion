@@ -51,3 +51,22 @@ bun run ci:local -j integration --matrix os:ubuntu-latest
 - Keep comments to a minimum: only for a non-obvious _why_. Tests document behaviour.
 - Everything in the repository is in English.
 - Every feature comes with unit tests for its logic and an integration test for its VS Code wiring.
+
+## Branches and releases
+
+`main` is protected: changes land through pull requests that pass the **CI passed** check, and are squash-merged so the history stays linear.
+
+To release:
+
+1. In a pull request, bump `version` in `package.json` and move the `CHANGELOG.md` entry from "unreleased" to today's date.
+2. After it is merged, tag the merge commit and push the tag:
+
+   ```sh
+   git switch main && git pull
+   git tag -a v0.2.0 -m "Bun Companion 0.2.0"
+   git push origin v0.2.0
+   ```
+
+3. Approve the `release` deployment in the Actions run. The workflow checks that the tag matches `package.json`, runs every check, publishes to the Visual Studio Marketplace (and Open VSX once enabled) with trusted publishing, and attaches the `.vsix` to a GitHub release.
+
+Only maintainers can create `v*` tags, and published tags cannot be moved or deleted. A mistake is fixed with a new patch version.
